@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {},
+  "id": "http://example.com/example.json",
+  "properties": {
+    "data": {
+      "id": "/properties/data",
+      "properties": {
+        "title": {
+          "id": "/properties/data/properties/title",
+          "title": "Title",
+          "type": "string",
+          "minLength": 50,
+          "maxLength": 140
+        },
+        "by_line": {
+          "id": "/properties/data/properties/by_line",
+          "title": "By line",
+          "type": "string"
+        },
+        "published_date": {
+          "id": "/properties/data/properties/published_date",
+          "title": "Publised date",
+          "type": "string",
+          "format": "date-time"
+        },
+        "links": {
+          "id": "/properties/data/properties/links",
+          "title": "Links",
+          "items": {
+            "id": "/properties/data/properties/links/items",
+            "title": "Link",
+            "hideTitle": true,
+            "separator": "#",
+            "properties": {
+              "link": {
+                "id": "/properties/data/properties/links/items/properties/link",
+                "default": "http://indianexpress.com",
+                "title": "Link",
+                "type": "string"
+              },
+              "favicon_url": {
+                "id": "/properties/data/properties/links/items/properties/favicon_url",
+                "default": "http://0.gravatar.com/blavatar/efe0300e7f891c5c802ed340f6b20b67?s=16",
+                "title": "Favicon URL",
+                "type": "string"
+              },
+              "publication_name": {
+                "id": "/properties/data/properties/links/items/properties/publication_name",
+                "default": "Indian Express",
+                "title": "Publication name",
+                "type": "string"
+              }
+            },
+            "required": [
+              "link"
+            ],
+            "minItems": 1,
+            "maxItems": 6,
+            "addButtonText": "Add a new link",
+            "type": "object"
+          },
+          "minItems": 1,
+          "maxItems": 6,
+          "type": "array"
+        },
+        "analysis": {
+          "id": "/properties/data/properties/analysis",
+          "title": "Analysis",
+          "type": "string",
+          "minLength": 300,
+          "maxLength": 390
+        }
+      },
+      "title": "Card Data",
+      "type": "object",
+      "required": ["title", "by_line", "published_date"]
+    }
+  },
+  "type": "object"
+}
