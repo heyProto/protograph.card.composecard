@@ -37,12 +37,7 @@ export default class editToCluster extends React.Component {
     getDataObj["name"] = getDataObj.dataJSON.data.title.substr(0,225); // Reduces the name to ensure the slug does not get too long
     return getDataObj;
   }
-  handleEditorChange(e) {
-    console.log(e.target.getContent());
-    this.setState({
-      content: e.target.getContent()
-    })
-  }
+
   componentDidMount() {
     // get sample json data based on type i.e string or object.
     if (this.state.fetchingData){
@@ -62,10 +57,8 @@ export default class editToCluster extends React.Component {
           optionalConfigJSON: opt_config.data,
           optionalConfigSchemaJSON: opt_config_schema.data,
           uiSchemaJSON: uiSchema.data,
-          refLinkDetails: linkSources.data
-        },
-        links = stateVars.dataJSON.data.links;
-
+          text:card.data.text
+        }
         // var  e = new Date
         //   ,n = e.getDate()
         //   , r = e.getMonth() + 1
@@ -74,10 +67,6 @@ export default class editToCluster extends React.Component {
         //   min = e.getMinutes();
         // var date =  `${o}-${r}-${n} ${hours}:${min}`
         stateVars.dataJSON.data.published_date = stateVars.dataJSON.data.published_date || (new Date).toString()
-
-        if (links.length) {
-          this.checkAndUpdateLinkInfo(links, stateVars.refLinkDetails);
-        }
 
         this.setState(stateVars);
       }));
@@ -128,7 +117,6 @@ export default class editToCluster extends React.Component {
           let dataJSON = prevStep.dataJSON;
           this.checkAndUpdateLinkInfo(formData.links)
           dataJSON.data = formData;
-          console.log(formData.published_date, ".......")
           return {
             dataJSON: dataJSON
           }
@@ -316,6 +304,7 @@ export default class editToCluster extends React.Component {
                 <div className="protograph-app-holder">
                   <Card
                     mode={this.state.mode}
+                    text={this.state.dataJSON.data.text}
                     dataJSON={this.state.dataJSON}
                     schemaJSON={this.state.schemaJSON}
                     editable={true}

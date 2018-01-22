@@ -28,9 +28,8 @@ export default class toCluster extends React.Component {
       stateVar.dataJSON = this.props.dataJSON;
       stateVar.languageTexts = this.getLanguageTexts(this.props.dataJSON.data.language);
     }
-
-    if(this.props.content){
-      stateVar.content = this.props.content;
+    if(this.props.text){
+      stateVar.text = this.props.text;
     }
     if (this.props.optionalConfigJSON) {
       stateVar.optionalConfigJSON = this.props.optionalConfigJSON;
@@ -49,11 +48,10 @@ export default class toCluster extends React.Component {
   exportData() {
     return this.props.selector.getBoundingClientRect();
   }
-  handleEditorChange(e) {
-    console.log(e.target.getContent());
-  }
   componentDidMount() {
-    $('.medium-editor-action-anchor').prepend('<img id="link_image" src="https://www.iconsdb.com/icons/preview/white/link-xxl.png" />')
+    if(this.props.editable){
+      $('.medium-editor-action-anchor').prepend('<img id="link_image" src="https://www.iconsdb.com/icons/preview/white/link-xxl.png" />')
+    }
     if (this.state.fetchingData) {
       axios.all([
         axios.get(this.props.dataURL),
@@ -66,7 +64,8 @@ export default class toCluster extends React.Component {
           dataJSON: card.data,
           optionalConfigJSON: opt_config.data,
           optionalConfigSchemaJSON: opt_config_schema.data,
-          languageTexts: this.getLanguageTexts(card.data.data.language)
+          languageTexts: this.getLanguageTexts(card.data.data.language),
+          text:card.data.data.text
         });
       }));
     } else {
@@ -75,11 +74,9 @@ export default class toCluster extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.dataJSON) {
       this.setState({
-        content: nextProps.content
+        text: nextProps.text
       });
-    }
   }
 
   getLanguageTexts(languageConfig) {
@@ -103,7 +100,7 @@ export default class toCluster extends React.Component {
   }
   handleChange(data){
     this.setState({
-      content:data
+      text:data
     })
   }
   componentDidUpdate() {
