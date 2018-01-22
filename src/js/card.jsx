@@ -53,6 +53,7 @@ export default class toCluster extends React.Component {
     console.log(e.target.getContent());
   }
   componentDidMount() {
+    $('.medium-editor-action-anchor').prepend('<img id="link_image" src="https://www.iconsdb.com/icons/preview/white/link-xxl.png" />')
     if (this.state.fetchingData) {
       axios.all([
         axios.get(this.props.dataURL),
@@ -120,16 +121,13 @@ export default class toCluster extends React.Component {
             text={this.state.text}
             onChange={(e)=>{this.handleChange(e)}}
             options={{disableEditing:!this.state.editable,toolbar: !this.state.editable ? false :{buttons: [
-              'bold',
-              'italic',
-              'h1','h2','h3',
-              'justifyCenter',
+              'bold','h2','h3',
               'quote',
               'anchor','unorderedlist','orderedlist','divider'
           ]}, extensions: {
             "divider": new CustomHtml({
-                buttonText: "<hr>"
-              , htmlToInsert: "<hr class='someclass'>"
+                buttonText: "Divider"
+              , htmlToInsert: "<hr class='divider'>"
             })
         }}}
           />
@@ -150,16 +148,14 @@ export default class toCluster extends React.Component {
             onChange={(e)=>{this.handleChange(e)}}
             options={{disableEditing:!this.state.editable,toolbar: !this.state.editable ? false :{buttons: [
               'bold',
-              'italic',
-              'h1','h2','h3',
-              'justifyCenter',
+              'h2','h3',
               'quote',
               'anchor',
               'divider'
           ]}, extensions: {
             "divider": new CustomHtml({
-                buttonText: "<hr>"
-              , htmlToInsert: "<hr class='someclass'>"
+                buttonText: "Divider"
+              , htmlToInsert: "<hr class='divider'>"
             })
         }}}
           />

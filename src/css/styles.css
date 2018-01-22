@@ -5,6 +5,9 @@ body {
 .clearfix {
   clear: both;
 }
+#link_image{
+  height:100%;
+}
 .protograph-card {
   position: relative;
   overflow: hidden;
@@ -14,6 +17,10 @@ body {
 .medium-editor-element{
   border: 1px solid black;
   overflow:hidden;
+  height:420px;
+}
+.medium-editor-action-anchor>b{
+  display:none;
 }
 .medium-editor-placeholder:after{
   left:7px !important;
