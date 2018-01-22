@@ -6,6 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import Editor from 'react-medium-editor';
 require('medium-editor/dist/css/medium-editor.css');
 require('medium-editor/dist/css/themes/default.css');
+import CustomHTML from 'medium-editor-custom-html';
 export default class toCluster extends React.Component {
 
   constructor(props) {
@@ -124,8 +125,13 @@ export default class toCluster extends React.Component {
               'h1','h2','h3',
               'justifyCenter',
               'quote',
-              'anchor'
-          ]}}}
+              'anchor','unorderedlist','orderedlist','divider'
+          ]}, extensions: {
+            "divider": new CustomHtml({
+                buttonText: "<hr>"
+              , htmlToInsert: "<hr class='someclass'>"
+            })
+        }}}
           />
           </div>
         )
@@ -148,8 +154,14 @@ export default class toCluster extends React.Component {
               'h1','h2','h3',
               'justifyCenter',
               'quote',
-              'anchor'
-          ]}}}
+              'anchor',
+              'divider'
+          ]}, extensions: {
+            "divider": new CustomHtml({
+                buttonText: "<hr>"
+              , htmlToInsert: "<hr class='someclass'>"
+            })
+        }}}
           />
           </div>
         )
