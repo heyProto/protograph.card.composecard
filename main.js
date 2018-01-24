@@ -6,37 +6,28 @@ window.ProtoGraph = window.ProtoGraph || {};
 window.ProtoGraph.Card = window.ProtoGraph.Card || {};
 
 
-ProtoGraph.Card.toCluster = function () {
-  this.cardType = 'ClusterCard';
+ProtoGraph.Card.ComposeCard = function () {
+  this.cardType = 'ComposeCard';
 }
 
-ProtoGraph.Card.toCluster.prototype.init = function (options) {
+ProtoGraph.Card.ComposeCard.prototype.init = function (options) {
   this.options = options;
 }
 
-ProtoGraph.Card.toCluster.prototype.getData = function (data) {
+ProtoGraph.Card.ComposeCard.prototype.getData = function (data) {
   return this.containerInstance.exportData();
 }
 
-ProtoGraph.Card.toCluster.prototype.renderCol7 = function (data) {
+ProtoGraph.Card.ComposeCard.prototype.renderCol7 = function (data) {
   this.mode = 'col7';
   this.render();
 }
-ProtoGraph.Card.toCluster.prototype.renderCol4 = function (data) {
+ProtoGraph.Card.ComposeCard.prototype.renderCol4 = function (data) {
   this.mode = 'col4';
   this.render();
 }
-ProtoGraph.Card.toCluster.prototype.renderCol3 = function (data) {
-  this.mode = 'col3';
-  this.render();
-}
 
-ProtoGraph.Card.toCluster.prototype.renderScreenshot = function (data) {
-  this.mode = 'screenshot';
-  this.render();
-}
-
-ProtoGraph.Card.toCluster.prototype.render = function () {
+ProtoGraph.Card.ComposeCard.prototype.render = function () {
   ReactDOM.render(
     <Card
       selector={this.options.selector}

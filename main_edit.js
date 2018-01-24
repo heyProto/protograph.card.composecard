@@ -2,16 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import EditCard from './src/js/edit_card.jsx';
 
-ProtoGraph.Card.toCluster.prototype.getData = function (data) {
+ProtoGraph.Card.ComposeCard.prototype.getData = function (data) {
   return this.containerInstance.exportData();
 }
 
-ProtoGraph.Card.toCluster.prototype.renderSEO = function (data) {
+ProtoGraph.Card.ComposeCard.prototype.renderSEO = function (data) {
   this.renderMode = 'SEO';
   return this.containerInstance.renderSEO();
 }
 
-ProtoGraph.Card.toCluster.prototype.renderEdit = function (onPublishCallback) {
+ProtoGraph.Card.ComposeCard.prototype.renderEdit = function (onPublishCallback) {
   this.mode = 'edit';
   this.onPublishCallback = onPublishCallback;
   ReactDOM.render(
