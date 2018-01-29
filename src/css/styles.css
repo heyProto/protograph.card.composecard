@@ -15,9 +15,23 @@ body {
   box-sizing: border-box;
 }
 .medium-editor-element{
-  border: 1px solid black;
   overflow:hidden;
-  height:420px;
+  min-height:420px !important;
+  white-space: pre-wrap;
+}
+pre>h2{
+  color:#333;
+  font-size: 22px;
+  font-family: cabin;
+  line-height: 36px;
+  margin-top: 10px;
+  font-weight: bold;
+  display: inline-block;
+}
+pre>p{
+  color:#707175;
+  line-height:28px;
+  font-size:16px;
 }
 .medium-editor-action-anchor>b{
   display:none;

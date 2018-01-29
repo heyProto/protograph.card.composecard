@@ -66,7 +66,6 @@ export default class editToCluster extends React.Component {
         //   hours = e.getHours(),
         //   min = e.getMinutes();
         // var date =  `${o}-${r}-${n} ${hours}:${min}`
-        stateVars.dataJSON.data.published_date = stateVars.dataJSON.data.published_date || (new Date).toString()
 
         this.setState(stateVars);
       }));
@@ -179,7 +178,6 @@ export default class editToCluster extends React.Component {
       linksHTML += `<li><a href="${e.link}" target="_blank">${e.publication_name}</a></li>`
     })
     linksHTML += "</ul>";
-    let blockquote_string = `<h1>${d.title}</h1><p>${d.by_line}</p><p>${d.published_date}</p>${linksHTML}`;
     let seo_blockquote = '<blockquote>' + blockquote_string + '</blockquote>'
     return seo_blockquote;
   }

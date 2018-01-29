@@ -1,14 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import TimeAgo from 'react-timeago';
 import ReactMarkdown from 'react-markdown';
 import Editor from 'react-medium-editor';
 require('medium-editor/dist/css/medium-editor.css');
 require('medium-editor/dist/css/themes/default.css');
 import CustomHTML from 'medium-editor-custom-html';
 export default class toCluster extends React.Component {
-
   constructor(props) {
     super(props)
     let stateVar = {
@@ -26,7 +24,6 @@ export default class toCluster extends React.Component {
     if (this.props.dataJSON) {
       stateVar.fetchingData = false;
       stateVar.dataJSON = this.props.dataJSON;
-      stateVar.languageTexts = this.getLanguageTexts(this.props.dataJSON.data.language);
     }
     if(this.props.text){
       stateVar.text = this.props.text;
@@ -42,7 +39,6 @@ export default class toCluster extends React.Component {
       stateVar.editable=this.props.editable;
     }
     this.state = stateVar;
-    this.processLink = this.processLink.bind(this);
   }
 
   exportData() {
@@ -50,7 +46,7 @@ export default class toCluster extends React.Component {
   }
   componentDidMount() {
     if(this.props.editable){
-      $('.medium-editor-action-anchor').prepend('<img id="link_image" src="https://www.iconsdb.com/icons/preview/white/link-xxl.png" />')
+      $('.medium-editor-action-anchor').prepend('<img id="link_image" src="./src/images/link.png" />')
     }
     if (this.state.fetchingData) {
       axios.all([
@@ -64,7 +60,6 @@ export default class toCluster extends React.Component {
           dataJSON: card.data,
           optionalConfigJSON: opt_config.data,
           optionalConfigSchemaJSON: opt_config_schema.data,
-          languageTexts: this.getLanguageTexts(card.data.data.language),
           text:card.data.data.text
         });
       }));
@@ -79,35 +74,46 @@ export default class toCluster extends React.Component {
       });
   }
 
-  getLanguageTexts(languageConfig) {
-    let language = languageConfig ? languageConfig : "hindi",
-      text_obj;
-
-    switch(language.toLowerCase()) {
-      case "hindi":
-        text_obj = {
-          font: "'Sarala', sans-serif"
-        }
-        break;
-      default:
-        text_obj = {
-          font: undefined
-        }
-        break;
-    }
-
-    return text_obj;
-  }
-  handleChange(data){
+  handleChange(dat){
+    let that = this;
+    let html = $.parseHTML(dat);
+    let dataJSON = this.state.dataJSON;
+    let data = this.state.dataJSON.data;
+    data.text = dat
+    let hdata={};
+    let nav = []
+    let count = 0;
+    let check = $(html).toArray().length - 1;
+    $(html).each(function(index){
+      if($(this).next().is('h2') || index === check){
+        nav.push(hdata);
+      }
+      if($(this).is('h2') ){
+        hdata = {};
+        hdata["heading"]=$(this).html();
+        hdata["subheading"]=[];
+        console.log(check);
+      }
+      
+      if($(this).is('h3')){
+        let hdata2 = {};
+        count+=1;
+        hdata2["heading"]=$(this).html();
+        hdata.subheading.push(hdata2)
+      }
+    });
+    data.navigation = nav;
+    dataJSON.data = data;
+    console.log(data);
     this.setState({
-      text:data
+      text:dat,
+      dataJSON: dataJSON
     })
   }
   componentDidUpdate() {
-    let data = this.state.dataJSON.data;
+
   }
   renderCol7() {
-    let data = this.state.dataJSON.data;
     if (this.state.fetchingData ){
       return(<div>Loading</div>)
     } else {
@@ -147,7 +153,7 @@ export default class toCluster extends React.Component {
               'bold',
               'h2','h3',
               'quote',
-              'anchor',
+              'anchor','unorderedlist','orderedlist',
               'divider'
           ]}, extensions: {
             "divider": new CustomHtml({
@@ -160,31 +166,10 @@ export default class toCluster extends React.Component {
         )
     }
   }
-  processLink(e) {
-    const links = this.state.dataJSON.data.links;
-    switch (e.type) {
-      case 'linkReference':
-        let linkRef = +e.identifier;
-        e.type = "link";
-        e.title = null;
-        if ((linkRef - 1) < links.length ) {
-          e.url = this.state.dataJSON.data.links[+e.identifier - 1].link;
-          return true;
-        } else  {
-          e.type = "span"
-          return true;
-        }
-        break;
-      // Don't allow any external link. Make all the links to span.
-      case 'link':
-        e.type = "span"
-        return true;
-      default:
-        return true;
-    }
-  }
 
   render() {
+
+
     switch(this.props.mode) {
       case 'col7' :
         return this.renderCol7();
