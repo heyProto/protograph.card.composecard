@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import ReactMarkdown from 'react-markdown';
-
 
 export default class composeCard extends React.Component {
   constructor(props) {
@@ -36,7 +34,6 @@ export default class composeCard extends React.Component {
     if(this.props.editable){
       stateVar.editable=this.props.editable;
     }
-    this.getData = this.getData.bind(this);
     this.state = stateVar;
   }
 
@@ -78,27 +75,7 @@ export default class composeCard extends React.Component {
   // componentDidUpdate() {
   // }
 
-  getData() {
-    let h2 = document.querySelector('.proto-compose-card h2'),
-      h3 = document.querySelector('.proto-compose-card h3'),
-      p = document.querySelector('.proto-compose-card p'),
-      title;
-
-    if (h2) {
-      title = h2.innerHTML;
-    } else if (h3) {
-      title = h3.innerHTML;
-    } else if (p) {
-      title = p.innerHTML;
-    } else {
-      title = (+new Date()).toString();
-    }
-
-    return {
-      dataJSON: this.state.dataJSON,
-      title: title
-    };
-  }
+ 
 
   renderCol7() {
     if (this.state.fetchingData ){

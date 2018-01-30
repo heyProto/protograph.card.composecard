@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Card from './card.jsx';
-import JSONSchemaForm from '../../lib/js/react-jsonschema-form';
+// import JSONSchemaForm from '../../lib/js/react-jsonschema-form';
 import Editor from 'react-medium-editor';
 require('medium-editor/dist/css/medium-editor.css');
 require('medium-editor/dist/css/themes/default.css');
@@ -27,6 +27,8 @@ export default class editComposeCard extends React.Component {
     // this.refLinkSourcesURL = window.ref_link_sources_url
     this.toggleMode = this.toggleMode.bind(this);
     this.onSubmitHandler = this.onSubmitHandler.bind(this);
+    this.getData = this.getData.bind(this);
+
     // this.formValidator = this.formValidator.bind(this);
   }
 
@@ -87,7 +89,6 @@ export default class editComposeCard extends React.Component {
         axios.get(this.props.uiSchemaURL),
       ])
       .then(axios.spread((card, schema, opt_config, opt_config_schema, uiSchema) => {
-        console.log(card.data); 
         let stateVars = {
           fetchingData: false,
           dataJSON: card.data,
@@ -212,8 +213,30 @@ export default class editComposeCard extends React.Component {
       step: prev_step
     });
   }
+  getData() {
+    let h2 = document.querySelector('.proto-compose-card h2'),
+      h3 = document.querySelector('.proto-compose-card h3'),
+      p = document.querySelector('.proto-compose-card p'),
+      title;
 
+    if (h2) {
+      title = h2.innerHTML;
+    } else if (h3) {
+      title = h3.innerHTML;
+    } else if (p) {
+      title = p.innerHTML;
+    } else {
+      title = (+new Date()).toString();
+    }
+
+    return {
+      dataJSON: this.state.dataJSON,
+      title: title
+    };
+  }
   renderEditor() {
+    console.log(this.state.text); 
+
     let options = {
       toolbar: {
         buttons: ['bold', 'h2', 'h3', 'quote', 'anchor', 'unorderedlist', 'orderedlist', 'divider']

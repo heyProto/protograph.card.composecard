@@ -42,6 +42,12 @@ body {
   font-size:16px;
   font-family:cabin;
 }
+.medium-editor-element li, .proto-compose-card li{
+  color:#707175;
+  line-height:28px;
+  font-size:16px;
+  font-family:cabin;
+}
 .medium-editor-element b, .proto-compose-card b{
   color: #333;
 }
