@@ -16,7 +16,6 @@ body {
 }
 .medium-editor-element{
   overflow:hidden;
-  white-space: pre-wrap;
 }
 .medium-editor-element>h2, .proto-compose-card>h2{
   color:#333;
