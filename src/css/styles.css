@@ -17,7 +17,7 @@ body {
 .medium-editor-element{
   overflow:hidden;
 }
-.medium-editor-element>h2, .proto-compose-card>h2{
+.medium-editor-element h2, .proto-compose-card h2{
   color:#333;
   font-size: 22px;
   font-family: cabin;
@@ -26,12 +26,26 @@ body {
   font-weight: bold;
   display: inline-block;
 }
-.medium-editor-element>p, .proto-compose-card>p{
+
+.medium-editor-element h3, .proto-compose-card h3{
+  color:#333;
+  font-size: 18px;
+  font-family: cabin;
+  line-height: 36px;
+  margin-top: 10px;
+  font-weight: bold;
+  display: inline-block;
+}
+.medium-editor-element p, .proto-compose-card p{
   color:#707175;
   line-height:28px;
   font-size:16px;
+  font-family:cabin;
 }
-.medium-editor-action-anchor>b{
+.medium-editor-element b, .proto-compose-card b{
+  color: #333;
+}
+.medium-editor-action-anchor b{
   display:none;
 }
 .medium-editor-placeholder:after{
