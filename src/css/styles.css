@@ -16,10 +16,9 @@ body {
 }
 .medium-editor-element{
   overflow:hidden;
-  min-height:420px !important;
   white-space: pre-wrap;
 }
-pre>h2{
+.medium-editor-element>h2, .proto-compose-card>h2{
   color:#333;
   font-size: 22px;
   font-family: cabin;
@@ -28,7 +27,7 @@ pre>h2{
   font-weight: bold;
   display: inline-block;
 }
-pre>p{
+.medium-editor-element>p, .proto-compose-card>p{
   color:#707175;
   line-height:28px;
   font-size:16px;

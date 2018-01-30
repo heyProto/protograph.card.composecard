@@ -2,10 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
-import Editor from 'react-medium-editor';
-require('medium-editor/dist/css/medium-editor.css');
-require('medium-editor/dist/css/themes/default.css');
-import CustomHTML from 'medium-editor-custom-html';
+
 
 export default class composeCard extends React.Component {
   constructor(props) {
@@ -77,40 +74,6 @@ export default class composeCard extends React.Component {
   //     });
   // }
 
-  handleChange(dat){
-    let that = this;
-    let html = $.parseHTML(dat);
-    let dataJSON = this.state.dataJSON;
-    let data = this.state.dataJSON.data;
-    data.text = dat
-    let hdata={};
-    let nav = []
-    let count = 0;
-    let check = $(html).toArray().length - 1;
-    $(html).each(function(index){
-      if($(this).next().is('h2') || index === check){
-        nav.push(hdata);
-      }
-      if($(this).is('h2') ){
-        hdata = {};
-        hdata["heading"]=$(this).html();
-        hdata["subheading"]=[];
-      }
-
-      if($(this).is('h3')){
-        let hdata2 = {};
-        count+=1;
-        hdata2["heading"]=$(this).html();
-        hdata.subheading.push(hdata2)
-      }
-    });
-    data.navigation = nav;
-    dataJSON.data = data;
-    this.setState({
-      text:dat,
-      dataJSON: dataJSON
-    })
-  }
 
   // componentDidUpdate() {
   // }
@@ -142,45 +105,20 @@ export default class composeCard extends React.Component {
       return(<div>Loading</div>)
     } else {
       return (
-        <div className="protograph-col7-mode proto-compose-card">
-          {this.renderEditor()}
+        <div className="protograph-col7-mode proto-compose-card" dangerouslySetInnerHTML={{__html: this.state.text}}>
         </div>
       )
     }
   }
   renderCol4() {
-    let data = this.state.dataJSON.data;
     if (this.state.fetchingData ){
       return(<div>Loading</div>)
     } else {
       return (
-        <div className="protograph-col4-mode proto-compose-card">
-          { this.renderEditor() }
+        <div className="protograph-col4-mode proto-compose-card" dangerouslySetInnerHTML={{__html: this.state.text}}>
         </div>
       )
     }
-  }
-
-  renderEditor() {
-    let options = {
-      disableEditing: !this.state.editable,
-      toolbar: !this.state.editable ? false : {
-        buttons: ['bold', 'h2', 'h3', 'quote', 'anchor', 'unorderedlist', 'orderedlist', 'divider']
-      },
-      extensions: {
-        "divider": new CustomHtml({
-          buttonText: "Divider",
-          htmlToInsert: "<hr class='divider'>"
-        })
-      }
-    };
-
-    return (<Editor
-      tag="pre"
-      text={this.state.text}
-      onChange={(e) => { this.handleChange(e) }}
-      options={options}
-    />)
   }
 
   render() {

@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Card from './card.jsx';
 import JSONSchemaForm from '../../lib/js/react-jsonschema-form';
+import Editor from 'react-medium-editor';
+require('medium-editor/dist/css/medium-editor.css');
+require('medium-editor/dist/css/themes/default.css');
+import CustomHTML from 'medium-editor-custom-html';
 
 export default class editComposeCard extends React.Component {
   constructor(props) {
@@ -17,7 +21,8 @@ export default class editComposeCard extends React.Component {
       optionalConfigJSON: {},
       optionalConfigSchemaJSON: undefined,
       uiSchemaJSON: {},
-      content: undefined
+      content: undefined,
+      text: undefined
     }
     // this.refLinkSourcesURL = window.ref_link_sources_url
     this.toggleMode = this.toggleMode.bind(this);
@@ -36,6 +41,40 @@ export default class editComposeCard extends React.Component {
     getDataObj["name"] = this.state.title.substr(0,225); // Reduces the name to ensure the slug does not get too long
     return getDataObj;
   }
+  handleChange(dat){
+    let that = this;
+    let html = $.parseHTML(dat);
+    let dataJSON = this.state.dataJSON;
+    let data = this.state.dataJSON.data;
+    data.text = dat
+    let hdata={};
+    let nav = []
+    let count = 0;
+    let check = $(html).toArray().length - 1;
+    $(html).each(function(index){
+      if($(this).next().is('h2') || index === check){
+        nav.push(hdata);
+      }
+      if($(this).is('h2') ){
+        hdata = {};
+        hdata["heading"]=$(this).html();
+        hdata["subheading"]=[];
+      }
+
+      if($(this).is('h3')){
+        let hdata2 = {};
+        count+=1;
+        hdata2["heading"]=$(this).html();
+        hdata.subheading.push(hdata2)
+      }
+    });
+    data.navigation = nav;
+    dataJSON.data = data;
+    this.setState({
+      text:dat,
+      dataJSON: dataJSON
+    })
+  }
 
   componentDidMount() {
     // get sample json data based on type i.e string or object.
@@ -48,6 +87,7 @@ export default class editComposeCard extends React.Component {
         axios.get(this.props.uiSchemaURL),
       ])
       .then(axios.spread((card, schema, opt_config, opt_config_schema, uiSchema) => {
+        console.log(card.data); 
         let stateVars = {
           fetchingData: false,
           dataJSON: card.data,
@@ -55,7 +95,7 @@ export default class editComposeCard extends React.Component {
           optionalConfigJSON: opt_config.data,
           optionalConfigSchemaJSON: opt_config_schema.data,
           uiSchemaJSON: uiSchema.data,
-          text:card.data.text
+          text:card.data.data.text
         }
         this.setState(stateVars);
       }));
@@ -173,6 +213,26 @@ export default class editComposeCard extends React.Component {
     });
   }
 
+  renderEditor() {
+    let options = {
+      toolbar: {
+        buttons: ['bold', 'h2', 'h3', 'quote', 'anchor', 'unorderedlist', 'orderedlist', 'divider']
+      },
+      extensions: {
+        "divider": new CustomHtml({
+          buttonText: "Divider",
+          htmlToInsert: "<hr class='divider'>"
+        })
+      }
+    };
+
+    return (<Editor
+      text={this.state.text}
+      onChange={(e) => { this.handleChange(e) }}
+      options={options}
+    />)
+  }
+
   toggleMode(e) {
     let element = e.target.closest('a'),
       mode = element.getAttribute('data-mode');
@@ -217,17 +277,9 @@ export default class editComposeCard extends React.Component {
                   </div>
                 </div>
                 <div className="protograph-app-holder">
-                  <Card
-                    mode={this.state.mode}
-                    text={this.state.dataJSON.data.text}
-                    dataJSON={this.state.dataJSON}
-                    schemaJSON={this.state.schemaJSON}
-                    editable={true}
-                    optionalConfigJSON={this.state.optionalConfigJSON}
-                    optionalConfigSchemaJSON={this.state.optionalConfigSchemaJSON}
-                    content={this.state.content}
-                    ref={(instance) => this.cardInstance = instance }
-                  />
+                  <div className={`protograph-${this.state.mode}-mode proto-compose-card`}>
+                    {this.renderEditor()}
+                  </div>
                   <br />
                   <button
                     type="submit"
