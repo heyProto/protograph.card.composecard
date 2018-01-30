@@ -3,9 +3,8 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import Card from './card.jsx';
 import JSONSchemaForm from '../../lib/js/react-jsonschema-form';
-import TinyMCE from 'react-tinymce';
 
-export default class editToCluster extends React.Component {
+export default class editComposeCard extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -18,12 +17,12 @@ export default class editToCluster extends React.Component {
       optionalConfigJSON: {},
       optionalConfigSchemaJSON: undefined,
       uiSchemaJSON: {},
-      refLinkDetails: undefined,
       content: undefined
     }
-    this.refLinkSourcesURL = window.ref_link_sources_url
+    // this.refLinkSourcesURL = window.ref_link_sources_url
     this.toggleMode = this.toggleMode.bind(this);
-    this.formValidator = this.formValidator.bind(this);
+    this.onSubmitHandler = this.onSubmitHandler.bind(this);
+    // this.formValidator = this.formValidator.bind(this);
   }
 
   exportData() {
@@ -34,7 +33,7 @@ export default class editToCluster extends React.Component {
       optionalConfigJSON: this.state.optionalConfigJSON,
       optionalConfigSchemaJSON: this.state.optionalConfigSchemaJSON
     }
-    getDataObj["name"] = getDataObj.dataJSON.data.title.substr(0,225); // Reduces the name to ensure the slug does not get too long
+    getDataObj["name"] = this.state.title.substr(0,225); // Reduces the name to ensure the slug does not get too long
     return getDataObj;
   }
 
@@ -47,9 +46,8 @@ export default class editToCluster extends React.Component {
         axios.get(this.props.optionalConfigURL),
         axios.get(this.props.optionalConfigSchemaURL),
         axios.get(this.props.uiSchemaURL),
-        axios.get(this.refLinkSourcesURL)
       ])
-      .then(axios.spread((card, schema, opt_config, opt_config_schema, uiSchema, linkSources) => {
+      .then(axios.spread((card, schema, opt_config, opt_config_schema, uiSchema) => {
         let stateVars = {
           fetchingData: false,
           dataJSON: card.data,
@@ -59,195 +57,114 @@ export default class editToCluster extends React.Component {
           uiSchemaJSON: uiSchema.data,
           text:card.data.text
         }
-        // var  e = new Date
-        //   ,n = e.getDate()
-        //   , r = e.getMonth() + 1
-        //   , o = e.getFullYear(),
-        //   hours = e.getHours(),
-        //   min = e.getMinutes();
-        // var date =  `${o}-${r}-${n} ${hours}:${min}`
-
         this.setState(stateVars);
       }));
     }
   }
 
-  checkAndUpdateLinkInfo(links, refLinkDetails) {
-    links.forEach((e,i) => {
-      let linkDetails = this.lookUpLinkDetail(e.link, refLinkDetails);
-      if (linkDetails) {
-        e.favicon_url = linkDetails.favicon_url;
-        e.publication_name = linkDetails.name;
-      }
-    });
-  }
 
-  lookUpLinkDetail(link, refLinkDetails) {
-    refLinkDetails = refLinkDetails || this.state.refLinkDetails;
+  // onChangeHandler({formData}) {
+  //   switch (this.state.step) {
+  //     case 1:
+  //       this.setState((prevStep, prop) => {
+  //         let dataJSON = prevStep.dataJSON;
+  //         dataJSON.data = formData;
+  //         return {
+  //           dataJSON: dataJSON
+  //         }
+  //       })
+  //       break;
+  //   }
+  // }
 
-    let linkParams = this.parseUrl(link),
-      lookupLink = refLinkDetails.filter((e, i) => {
-        return e.url === linkParams.origin;
-      })[0];
+  // onSubmitHandler({formData}) {
+  //   switch(this.state.step) {
+  //     case 1:
+  //       if (typeof this.props.onPublishCallback === "function") {
+  //         this.setState({ publishing: true });
+  //         let publishCallback = this.props.onPublishCallback();
+  //         publishCallback.then((message) => {
+  //           this.setState({ publishing: false });
+  //         });
+  //       }
+  //   }
+  // }
 
-      return lookupLink;
-  }
+  onSubmitHandler(e) {
+    if (typeof this.props.onPublishCallback === "function") {
+      let publishCallback,
+        data = this.cardInstance.getData();
 
-  parseUrl(url) {
-    var parser = document.createElement('a'),
-      search;
-    parser.href = url;
-    return {
-      protocol: parser.protocol,
-      host: parser.host,
-      hostnam: parser.hostname,
-      port: parser.port,
-      pathname: parser.pathname,
-      hash: parser.hash,
-      searchString: parser.search,
-      origin: parser.origin
-    };
-  }
-
-  onChangeHandler({formData}) {
-    switch (this.state.step) {
-      case 1:
-        this.setState((prevStep, prop) => {
-          let dataJSON = prevStep.dataJSON;
-          this.checkAndUpdateLinkInfo(formData.links)
-          dataJSON.data = formData;
-          return {
-            dataJSON: dataJSON
-          }
-        })
-        break;
-      case 2:
-        this.setState((prevState, prop) => {
-          let dataJSON = prevState.dataJSON;
-          if (formData.analysis && formData.analysis.length > 0) {
-            dataJSON.data.analysis = formData.analysis;
-          } else {
-            delete dataJSON.data.analysis;
-          }
-
-          return {
-            dataJSON: dataJSON
-          }
-        })
-        break;
-    }
-  }
-
-  onSubmitHandler({formData}) {
-    switch(this.state.step) {
-      case 1:
-        this.setState({ step: 2 });
-        break;
-      case 2:
-        if (typeof this.props.onPublishCallback === "function") {
-          this.setState({ publishing: true });
-          let publishCallback = this.props.onPublishCallback();
-          publishCallback.then((message) => {
-            this.setState({ publishing: false });
-          });
-        }
-        break;
-    }
-  }
-
-  formValidator(formData, errors) {
-    switch (this.state.step) {
-      case 1:
-        formData.links.forEach((e, i) => {
-          let details = this.lookUpLinkDetail(e.link);
-          if (!details) {
-            errors.links[i].addError("Story domain is invalid");
-          }
+      this.setState({
+        publishing: true,
+        dataJSON: data.dataJSON,
+        title: data.title
+      }, (f) => {
+        publishCallback = this.props.onPublishCallback();
+        publishCallback.then((message) => {
+          this.setState({ publishing: false });
         });
-        return errors;
-      default:
-        return errors;
+      });
     }
-    return errors;
   }
 
   renderSEO() {
-    let d = this.state.dataJSON.data,
-      linksHTML = "<ul>";
-    d.links.forEach(e => {
-      linksHTML += `<li><a href="${e.link}" target="_blank">${e.publication_name}</a></li>`
-    })
-    linksHTML += "</ul>";
-    let seo_blockquote = '<blockquote>' + blockquote_string + '</blockquote>'
+    let seo_blockquote = '<blockquote>' + this.state.dataJSON.data.text + '</blockquote>'
     return seo_blockquote;
   }
 
-  renderSchemaJSON() {
-    let schema;
-    switch(this.state.step){
-      case 1:
-        schema = JSON.parse(JSON.stringify(this.state.schemaJSON.properties.data))
-        delete schema.properties.analysis;
-        return schema;
-        break;
-      case 2:
-        schema = {
-          properties: {
-            analysis: this.state.schemaJSON.properties.data.properties.analysis
-          },
-          "type": "object",
-        }
-        return schema;
-        break;
-    }
-  }
+  // renderSchemaJSON() {
+  //   let schema;
+  //   switch(this.state.step){
+  //     case 1:
+  //       return this.state.schemaJSON.properties.data;
+  //       break;
+  //   }
+  // }
 
-  renderFormData() {
-    switch(this.state.step) {
-      case 1:
-        return this.state.dataJSON.data;
-        break;
-      case 2:
-        return {analysis: this.state.dataJSON.data.analysis};
-        break;
-    }
-  }
+  // renderFormData() {
+  //   switch(this.state.step) {
+  //     case 1:
+  //       return this.state.dataJSON.data;
+  //       break;
+  //   }
+  // }
 
-  showLinkText() {
-    switch(this.state.step) {
-      case 1:
-        return '';
-        break;
-      case 2:
-        return '< Back';
-        break;
-    }
-  }
+  // showLinkText() {
+  //   switch(this.state.step) {
+  //     case 1:
+  //       return '';
+  //       break;
+  //     case 2:
+  //       return '< Back';
+  //       break;
+  //   }
+  // }
 
-  showButtonText() {
-    switch(this.state.step) {
-      case 1:
-        return 'Next';
-        break;
-      case 2:
-        return 'Publish';
-        break;
-    }
-  }
+  // showButtonText() {
+  //   switch(this.state.step) {
+  //     case 1:
+  //       return 'Next';
+  //       break;
+  //     case 2:
+  //       return 'Publish';
+  //       break;
+  //   }
+  // }
 
-  getUISchemaJSON() {
-    switch (this.state.step) {
-      case 1:
-        return this.state.uiSchemaJSON.section1.data;
-        break;
-      case 2:
-        return this.state.uiSchemaJSON.section2.data;
-        break;
-      default:
-        return {};
-        break;
-    }
-  }
+  // getUISchemaJSON() {
+  //   switch (this.state.step) {
+  //     case 1:
+  //       return this.state.uiSchemaJSON.section1.data;
+  //       break;
+  //     case 2:
+  //       return this.state.uiSchemaJSON.section2.data;
+  //       break;
+  //     default:
+  //       return {};
+  //       break;
+  //   }
+  // }
 
   onPrevHandler() {
     let prev_step = --this.state.step;
@@ -309,7 +226,14 @@ export default class editToCluster extends React.Component {
                     optionalConfigJSON={this.state.optionalConfigJSON}
                     optionalConfigSchemaJSON={this.state.optionalConfigSchemaJSON}
                     content={this.state.content}
+                    ref={(instance) => this.cardInstance = instance }
                   />
+                  <br />
+                  <button
+                    type="submit"
+                    className={`${this.state.publishing ? 'ui primary loading disabled button' : ''} default-button protograph-primary-button`}
+                    onClick={this.onSubmitHandler}
+                  >Publish</button>
                 </div>
               </div>
             </div>

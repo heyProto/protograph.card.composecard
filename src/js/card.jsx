@@ -6,7 +6,8 @@ import Editor from 'react-medium-editor';
 require('medium-editor/dist/css/medium-editor.css');
 require('medium-editor/dist/css/themes/default.css');
 import CustomHTML from 'medium-editor-custom-html';
-export default class toCluster extends React.Component {
+
+export default class composeCard extends React.Component {
   constructor(props) {
     super(props)
     let stateVar = {
@@ -20,7 +21,7 @@ export default class toCluster extends React.Component {
       editable: false,
       text: undefined
     };
-    
+
     if (this.props.dataJSON) {
       stateVar.fetchingData = false;
       stateVar.dataJSON = this.props.dataJSON;
@@ -38,15 +39,17 @@ export default class toCluster extends React.Component {
     if(this.props.editable){
       stateVar.editable=this.props.editable;
     }
+    this.getData = this.getData.bind(this);
     this.state = stateVar;
   }
 
   exportData() {
     return this.props.selector.getBoundingClientRect();
   }
+
   componentDidMount() {
     if(this.props.editable){
-      $('.medium-editor-action-anchor').prepend('<img id="link_image" src="./src/images/link.png" />')
+      $('.medium-editor-action-anchor').prepend('<img id="link_image" src="https://cdn.protograph.pykih.com/Assets/compose-card/link.png" />')
     }
     if (this.state.fetchingData) {
       axios.all([
@@ -64,15 +67,15 @@ export default class toCluster extends React.Component {
         });
       }));
     } else {
-      this.componentDidUpdate();
+      // this.componentDidUpdate();
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-      this.setState({
-        text: nextProps.text
-      });
-  }
+  // componentWillReceiveProps(nextProps) {
+  //     this.setState({
+  //       text: nextProps.text
+  //     });
+  // }
 
   handleChange(dat){
     let that = this;
@@ -92,9 +95,8 @@ export default class toCluster extends React.Component {
         hdata = {};
         hdata["heading"]=$(this).html();
         hdata["subheading"]=[];
-        console.log(check);
       }
-      
+
       if($(this).is('h3')){
         let hdata2 = {};
         count+=1;
@@ -104,38 +106,46 @@ export default class toCluster extends React.Component {
     });
     data.navigation = nav;
     dataJSON.data = data;
-    console.log(data);
     this.setState({
       text:dat,
       dataJSON: dataJSON
     })
   }
-  componentDidUpdate() {
 
+  // componentDidUpdate() {
+  // }
+
+  getData() {
+    let h2 = document.querySelector('.proto-compose-card h2'),
+      h3 = document.querySelector('.proto-compose-card h3'),
+      p = document.querySelector('.proto-compose-card p'),
+      title;
+
+    if (h2) {
+      title = h2.innerHTML;
+    } else if (h3) {
+      title = h3.innerHTML;
+    } else if (p) {
+      title = p.innerHTML;
+    } else {
+      title = (+new Date()).toString();
+    }
+
+    return {
+      dataJSON: this.state.dataJSON,
+      title: title
+    };
   }
+
   renderCol7() {
     if (this.state.fetchingData ){
       return(<div>Loading</div>)
     } else {
-        return (
-          <div className="protograph-col7-mode">
-            <Editor
-            tag="pre"
-            text={this.state.text}
-            onChange={(e)=>{this.handleChange(e)}}
-            options={{disableEditing:!this.state.editable,toolbar: !this.state.editable ? false :{buttons: [
-              'bold','h2','h3',
-              'quote',
-              'anchor','unorderedlist','orderedlist','divider'
-          ]}, extensions: {
-            "divider": new CustomHtml({
-                buttonText: "Divider"
-              , htmlToInsert: "<hr class='divider'>"
-            })
-        }}}
-          />
-          </div>
-        )
+      return (
+        <div className="protograph-col7-mode proto-compose-card">
+          {this.renderEditor()}
+        </div>
+      )
     }
   }
   renderCol4() {
@@ -143,33 +153,37 @@ export default class toCluster extends React.Component {
     if (this.state.fetchingData ){
       return(<div>Loading</div>)
     } else {
-        return (
-          <div className="protograph-col4-mode">
-            <Editor
-            tag="pre"
-            text={this.state.text}
-            onChange={(e)=>{this.handleChange(e)}}
-            options={{disableEditing:!this.state.editable,toolbar: !this.state.editable ? false :{buttons: [
-              'bold',
-              'h2','h3',
-              'quote',
-              'anchor','unorderedlist','orderedlist',
-              'divider'
-          ]}, extensions: {
-            "divider": new CustomHtml({
-                buttonText: "Divider"
-              , htmlToInsert: "<hr class='divider'>"
-            })
-        }}}
-          />
-          </div>
-        )
+      return (
+        <div className="protograph-col4-mode proto-compose-card">
+          { this.renderEditor() }
+        </div>
+      )
     }
   }
 
+  renderEditor() {
+    let options = {
+      disableEditing: !this.state.editable,
+      toolbar: !this.state.editable ? false : {
+        buttons: ['bold', 'h2', 'h3', 'quote', 'anchor', 'unorderedlist', 'orderedlist', 'divider']
+      },
+      extensions: {
+        "divider": new CustomHtml({
+          buttonText: "Divider",
+          htmlToInsert: "<hr class='divider'>"
+        })
+      }
+    };
+
+    return (<Editor
+      tag="pre"
+      text={this.state.text}
+      onChange={(e) => { this.handleChange(e) }}
+      options={options}
+    />)
+  }
+
   render() {
-
-
     switch(this.props.mode) {
       case 'col7' :
         return this.renderCol7();
