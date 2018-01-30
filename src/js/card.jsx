@@ -42,9 +42,7 @@ export default class composeCard extends React.Component {
   }
 
   componentDidMount() {
-    if(this.props.editable){
-      $('.medium-editor-action-anchor').prepend('<img id="link_image" src="https://cdn.protograph.pykih.com/Assets/compose-card/link.png" />')
-    }
+
     if (this.state.fetchingData) {
       axios.all([
         axios.get(this.props.dataURL),

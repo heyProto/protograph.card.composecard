@@ -80,6 +80,7 @@ export default class editComposeCard extends React.Component {
 
   componentDidMount() {
     // get sample json data based on type i.e string or object.
+
     if (this.state.fetchingData){
       axios.all([
         axios.get(this.props.dataURL),
@@ -135,7 +136,6 @@ export default class editComposeCard extends React.Component {
     if (typeof this.props.onPublishCallback === "function") {
       let publishCallback,
         data = this.cardInstance.getData();
-
       this.setState({
         publishing: true,
         dataJSON: data.dataJSON,
@@ -236,7 +236,6 @@ export default class editComposeCard extends React.Component {
   }
   renderEditor() {
     console.log(this.state.text); 
-
     let options = {
       toolbar: {
         buttons: ['bold', 'h2', 'h3', 'quote', 'anchor', 'unorderedlist', 'orderedlist', 'divider']

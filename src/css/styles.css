@@ -36,11 +36,22 @@ body {
   font-weight: bold;
   display: inline-block;
 }
+.medium-editor-element hr, .proto-compose-card hr{
+  opacity: 0.3;
+}
 .medium-editor-element p, .proto-compose-card p{
   color:#707175;
   line-height:28px;
   font-size:16px;
   font-family:cabin;
+}
+.medium-editor-element blockquote, .proto-compose-card blockquote{
+  color:#707175;
+  line-height:28px;
+  font-size:16px;
+  font-family:cabin;
+  border-left: 5px solid #d4d4d4;
+  padding-left: 35px;
 }
 .medium-editor-element li, .proto-compose-card li{
   color:#707175;
