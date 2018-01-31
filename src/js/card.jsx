@@ -73,8 +73,6 @@ export default class composeCard extends React.Component {
   // componentDidUpdate() {
   // }
 
- 
-
   renderCol7() {
     if (this.state.fetchingData ){
       return(<div>Loading</div>)

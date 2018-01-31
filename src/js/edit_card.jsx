@@ -22,7 +22,7 @@ export default class editComposeCard extends React.Component {
       optionalConfigSchemaJSON: undefined,
       uiSchemaJSON: {},
       content: undefined,
-      text: undefined
+      text: ""
     }
     // this.refLinkSourcesURL = window.ref_link_sources_url
     this.toggleMode = this.toggleMode.bind(this);
@@ -135,11 +135,24 @@ export default class editComposeCard extends React.Component {
   onSubmitHandler(e) {
     if (typeof this.props.onPublishCallback === "function") {
       let publishCallback,
-        data = this.cardInstance.getData();
+        h2 = document.querySelector('.proto-compose-card h2'),
+        h3 = document.querySelector('.proto-compose-card h3'),
+        p = document.querySelector('.proto-compose-card p'),
+        title;
+
+      if (h2) {
+        title = h2.innerHTML;
+      } else if (h3) {
+        title = h3.innerHTML;
+      } else if (p) {
+        title = p.innerHTML;
+      } else {
+        title = (+new Date()).toString();
+      }
+
       this.setState({
         publishing: true,
-        dataJSON: data.dataJSON,
-        title: data.title
+        title: title
       }, (f) => {
         publishCallback = this.props.onPublishCallback();
         publishCallback.then((message) => {
@@ -213,21 +226,8 @@ export default class editComposeCard extends React.Component {
       step: prev_step
     });
   }
-  getData() {
-    let h2 = document.querySelector('.proto-compose-card h2'),
-      h3 = document.querySelector('.proto-compose-card h3'),
-      p = document.querySelector('.proto-compose-card p'),
-      title;
 
-    if (h2) {
-      title = h2.innerHTML;
-    } else if (h3) {
-      title = h3.innerHTML;
-    } else if (p) {
-      title = p.innerHTML;
-    } else {
-      title = (+new Date()).toString();
-    }
+  getData() {
 
     return {
       dataJSON: this.state.dataJSON,
@@ -235,7 +235,6 @@ export default class editComposeCard extends React.Component {
     };
   }
   renderEditor() {
-    console.log(this.state.text); 
     let options = {
       toolbar: {
         buttons: ['bold', 'h2', 'h3', 'quote', 'anchor', 'unorderedlist', 'orderedlist', 'divider']
