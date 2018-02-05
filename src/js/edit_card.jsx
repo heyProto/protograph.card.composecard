@@ -271,7 +271,12 @@ export default class editComposeCard extends React.Component {
       }
     })
   }
-
+  componentDidUpdate(){
+    let anchor = document.getElementsByClassName('medium-editor-action-anchor')[0];
+    if(anchor){
+      anchor.innerHTML = "<img src=\"https://cdn.protograph.pykih.com/Assets/compose-card/link.png\" class=\"link-image\"/>"
+    }
+  }
   render() {
     if (this.state.fetchingData) {
       return(<div>Loading</div>)

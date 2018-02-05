@@ -77,6 +77,7 @@ export default class composeCard extends React.Component {
     if (this.state.fetchingData ){
       return(<div>Loading</div>)
     } else {
+
       return (
         <div className="protograph-col7-mode proto-compose-card" dangerouslySetInnerHTML={{__html: this.state.text}}>
         </div>

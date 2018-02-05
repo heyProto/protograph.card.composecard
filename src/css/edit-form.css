@@ -16,7 +16,9 @@
   overflow: hidden;
   border-radius: 50px;
 }
-
+.link-image{
+  height:100%;
+}
 .form-layout .proto-card-form {
   padding-top: 15px;
 }
