@@ -6,7 +6,7 @@ body {
 .clearfix {
   clear: both;
 }
-#link_image{
+.link-image{
   height:100%;
 }
 .protograph-card {
