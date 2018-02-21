@@ -8,9 +8,7 @@ export default class composeCard extends React.Component {
     let stateVar = {
       fetchingData: true,
       dataJSON: {},
-      schemaJSON: undefined,
       optionalConfigJSON: {},
-      languageTexts: undefined,
       content: undefined,
       editable: false,
       text: undefined
@@ -41,7 +39,6 @@ export default class composeCard extends React.Component {
   }
 
   componentDidMount() {
-
     if (this.state.fetchingData) {
       let items_to_fetch = [
         axios.get(this.props.dataURL),
@@ -52,13 +49,16 @@ export default class composeCard extends React.Component {
         items_to_fetch.push(axios.get(this.props.siteConfigURL));
       }
 
-      axios.all(items_to_fetch).then(axios.spread((card, opt_config) => {
-        this.setState({
+      axios.all(items_to_fetch).then(axios.spread((card, opt_config, site_configs) => {
+        let stateVar = {
           fetchingData: false,
           dataJSON: card.data,
           optionalConfigJSON: opt_config.data,
-          text:card.data.data.text
-        });
+          text: card.data.data.text
+        };
+
+        site_configs ? stateVar["siteConfigs"] = site_configs.data : stateVar["siteConfigs"] = this.state.siteConfigs;
+        this.setState(stateVar);
       }));
     }
   }
