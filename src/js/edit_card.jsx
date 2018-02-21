@@ -88,8 +88,9 @@ export default class editComposeCard extends React.Component {
         axios.get(this.props.optionalConfigURL),
         axios.get(this.props.optionalConfigSchemaURL),
         axios.get(this.props.uiSchemaURL),
+        axios.get(this.props.siteConfigURL)
       ])
-      .then(axios.spread((card, schema, opt_config, opt_config_schema, uiSchema) => {
+      .then(axios.spread((card, schema, opt_config, opt_config_schema, uiSchema, site_configs) => {
         let stateVars = {
           fetchingData: false,
           dataJSON: card.data,
@@ -97,7 +98,8 @@ export default class editComposeCard extends React.Component {
           optionalConfigJSON: opt_config.data,
           optionalConfigSchemaJSON: opt_config_schema.data,
           uiSchemaJSON: uiSchema.data,
-          text:card.data.data.text
+          text: card.data.data.text,
+          siteConfigs: site_configs.data
         }
         this.setState(stateVars);
       }));

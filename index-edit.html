@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>composeCard Card</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" />
-    <!-- <link href="https://fonts.googleapis.com/css?family=Hind" rel="stylesheet"> -->
     <link rel="stylesheet" type="text/css" href="./src/css/styles.css">
-    <!-- <link rel="stylesheet" type="text/css" href="./lib/css/calendar.min.css"> -->
     <link rel="stylesheet" type="text/css" href="./src/css/edit-form.css">
   </head>
   <body>
@@ -28,7 +26,8 @@
         schema_url: 'dist/0.0.1/schema.json',
         configuration_url: './dist/0.0.1/configuration_sample.json', //will come from local folder
         configuration_schema_url: './dist/0.0.1/configuration_schema.json', //will come from local folder
-        ui_schema_url: './dist/0.0.1/ui_schema.json' //will come from local folder
+        ui_schema_url: './dist/0.0.1/ui_schema.json', //will come from local folder
+        site_config_url: './dist/0.0.1/site.json'
       })
       x.renderEdit();
     </script>
