@@ -10,7 +10,6 @@ export default class composeCard extends React.Component {
       dataJSON: {},
       schemaJSON: undefined,
       optionalConfigJSON: {},
-      optionalConfigSchemaJSON: undefined,
       languageTexts: undefined,
       content: undefined,
       editable: false,
@@ -21,19 +20,19 @@ export default class composeCard extends React.Component {
       stateVar.fetchingData = false;
       stateVar.dataJSON = this.props.dataJSON;
     }
+
     if(this.props.text){
       stateVar.text = this.props.text;
     }
+
     if (this.props.optionalConfigJSON) {
       stateVar.optionalConfigJSON = this.props.optionalConfigJSON;
     }
 
-    if (this.props.optionalConfigSchemaJSON) {
-      stateVar.optionalConfigSchemaJSON = this.props.optionalConfigSchemaJSON;
-    }
     if(this.props.editable){
       stateVar.editable=this.props.editable;
     }
+
     this.state = stateVar;
   }
 
@@ -44,34 +43,25 @@ export default class composeCard extends React.Component {
   componentDidMount() {
 
     if (this.state.fetchingData) {
-      axios.all([
+      let items_to_fetch = [
         axios.get(this.props.dataURL),
-        axios.get(this.props.optionalConfigURL),
-        axios.get(this.props.optionalConfigSchemaURL)
-      ])
-      .then(axios.spread((card, opt_config, opt_config_schema) => {
+        axios.get(this.props.optionalConfigURL)
+      ];
+
+      if (this.props.siteConfigURL) {
+        items_to_fetch.push(axios.get(this.props.siteConfigURL));
+      }
+
+      axios.all(items_to_fetch).then(axios.spread((card, opt_config) => {
         this.setState({
           fetchingData: false,
           dataJSON: card.data,
           optionalConfigJSON: opt_config.data,
-          optionalConfigSchemaJSON: opt_config_schema.data,
           text:card.data.data.text
         });
       }));
-    } else {
-      // this.componentDidUpdate();
     }
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //     this.setState({
-  //       text: nextProps.text
-  //     });
-  // }
-
-
-  // componentDidUpdate() {
-  // }
 
   renderCol7() {
     if (this.state.fetchingData ){

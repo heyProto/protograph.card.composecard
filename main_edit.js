@@ -22,6 +22,7 @@ ProtoGraph.Card.ComposeCard.prototype.renderEdit = function (onPublishCallback) 
       optionalConfigSchemaURL={this.options.configuration_schema_url}
       uiSchemaURL={this.options.ui_schema_url}
       onPublishCallback={this.onPublishCallback}
+      siteConfigURL={this.options.site_config_url}
       mode={this.mode}
       ref={(e) => {
         this.containerInstance = this.containerInstance || e;
