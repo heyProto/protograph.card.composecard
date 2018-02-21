@@ -4,23 +4,9 @@
     <meta charset = "UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>composeCard</title>
-    <link rel="stylesheet" type="text/css" href="https://dwln9tzsi7g07.cloudfront.net/Assets/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.protograph.pykih.com/Assets/semantic.min.css">
     <link href="https://fonts.googleapis.com/css?family=Hind" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="card.min.css">
-    <script type="text/javascript">
-      var origin, base_url;
-      // Setting variables from environment
-      origin = window.location.origin;
-      if (origin == 'https://s3.ap-south-1.amazonaws.com') {
-        let bucket_name = window.location.pathname.split('/')['1'];
-        base_url = origin + "/" + bucket_name;
-      } else if (origin === 'https://dkqrqc7q64awx.cloudfront.net') {
-        base_url = origin;
-      } else {
-        base_url = origin;
-      }
-    </script>
-
   </head>
   <body>
     <div id="composeCard_card"></div>
@@ -44,7 +30,9 @@
     }
 
     let view_cast_id = findGetParameter('view_cast_id'),
-      schema_id = findGetParameter('schema_id');
+      schema_id = findGetParameter('schema_id'),
+      base_url = findGetParameter('base_url') || "https://cdn.protograph.pykih.com",
+      schema_base_url = "https://cdn.protograph.pykih.com";
 
     var ReceiverConsumer = Oasis.Consumer.extend({
       requests: {
@@ -52,7 +40,7 @@
           if(typeof (view_cast_id) !== 'undefined' && typeof(schema_id) !== 'undefined'){
             var that = this,
               data_base_path = base_url + "/" + view_cast_id,
-              schema_base_path = base_url + "/" + schema_id,
+              schema_base_path = schema_base_url + "/" + schema_id,
               params;
 
             params = {
