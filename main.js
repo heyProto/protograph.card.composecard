@@ -32,7 +32,6 @@ ProtoGraph.Card.ComposeCard.prototype.render = function () {
     <Card
       selector={this.options.selector}
       dataURL={this.options.data_url}
-      optionalConfigURL={this.options.configuration_url}
       siteConfigs={this.options.site_configs}
       siteConfigURL={this.options.site_config_url}
       mode={this.mode}

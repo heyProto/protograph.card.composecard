@@ -41,25 +41,24 @@ export default class composeCard extends React.Component {
   componentDidMount() {
     if (this.state.fetchingData) {
       let items_to_fetch = [
-        axios.get(this.props.dataURL),
-        axios.get(this.props.optionalConfigURL)
+        axios.get(this.props.dataURL)
       ];
 
       if (this.props.siteConfigURL) {
         items_to_fetch.push(axios.get(this.props.siteConfigURL));
       }
 
-      axios.all(items_to_fetch).then(axios.spread((card, opt_config, site_configs) => {
+      axios.all(items_to_fetch).then(axios.spread((card, site_configs) => {
         let stateVar = {
           fetchingData: false,
           dataJSON: card.data,
-          optionalConfigJSON: opt_config.data,
-          text: card.data.data.text
+          text: card.data.data.text,
+          siteConfigs: site_configs ? site_configs.data : this.state.siteConfigs
         };
-
-        site_configs ? stateVar["siteConfigs"] = site_configs.data : stateVar["siteConfigs"] = this.state.siteConfigs;
         this.setState(stateVar);
       }));
+    }else{
+      this.componentDidUpdate();
     }
   }
 
