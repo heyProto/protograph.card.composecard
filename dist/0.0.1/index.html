@@ -36,7 +36,7 @@
     var ReceiverConsumer = Oasis.Consumer.extend({
       requests: {
         receive: function(mode, options) {
-          if(typeof (view_cast_id) !== 'undefined' && typeof(schema_id) !== 'undefined'){
+          if(typeof (view_cast_id) !== 'undefined'){
             var that = this,
               data_base_path = base_url + "/" + view_cast_id,
               params;
