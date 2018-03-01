@@ -43,16 +43,18 @@ export default class editComposeCard extends React.Component {
     getDataObj["name"] = this.state.title.substr(0,225); // Reduces the name to ensure the slug does not get too long
     return getDataObj;
   }
+
   handleChange(dat){
-    let that = this;
-    let html = $.parseHTML(dat);
-    let dataJSON = this.state.dataJSON;
-    let data = this.state.dataJSON.data;
-    data.text = dat
-    let hdata={};
-    let nav = []
-    let count = 0;
-    let check = $(html).toArray().length - 1;
+    let html = $.parseHTML(dat),
+      dataJSON = this.state.dataJSON,
+      data = this.state.dataJSON.data,
+      hdata = {},
+      nav = [],
+      count = 0,
+      check = $(html).toArray().length - 1,
+      first_h2;
+
+    data.text = dat;
     $(html).each(function(index){
       if($(this).next().is('h2') || index === check){
         nav.push(hdata);
@@ -70,8 +72,10 @@ export default class editComposeCard extends React.Component {
         hdata.subheading.push(hdata2)
       }
     });
+
     data.navigation = nav;
     dataJSON.data = data;
+
     this.setState({
       text:dat,
       dataJSON: dataJSON
@@ -140,10 +144,13 @@ export default class editComposeCard extends React.Component {
         h2 = document.querySelector('.proto-compose-card h2'),
         h3 = document.querySelector('.proto-compose-card h3'),
         p = document.querySelector('.proto-compose-card p'),
+        dataJSON = this.state.dataJSON,
         title;
 
+      dataJSON.data.section = "";
       if (h2) {
         title = h2.innerHTML;
+        dataJSON.data.section = title;
       } else if (h3) {
         title = h3.innerHTML;
       } else if (p) {
@@ -154,7 +161,8 @@ export default class editComposeCard extends React.Component {
 
       this.setState({
         publishing: true,
-        title: title
+        title: title,
+        dataJSON: dataJSON
       }, (f) => {
         publishCallback = this.props.onPublishCallback();
         publishCallback.then((message) => {

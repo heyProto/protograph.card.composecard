@@ -6,6 +6,12 @@
     "data": {
       "id": "/properties/data",
       "properties": {
+        "section": {
+          "id": "/properties/data/properties/section",
+          "type": "string",
+          "title": "Section",
+          "default": ""
+        },
         "text": {
           "id": "/properties/data/properties/title",
           "title": "Title",
