@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Lato|Quattrocento');
+@import url('https://fonts.googleapis.com/css?family=Lato:400,900|Quattrocento:400,700');
 body {
   min-width: initial !important;
   overflow:hidden;
@@ -20,7 +20,7 @@ body {
 }
 .medium-editor-element h2, .proto-compose-card h2{
   color:#333;
-  font-size: 22px;
+  font-size: 26px;
   font-family: 'Lato', sans-serif;
   line-height: 36px;
   margin-top: 10px;
@@ -29,7 +29,7 @@ body {
 
 .medium-editor-element h3, .proto-compose-card h3{
   color:#333;
-  font-size: 18px;
+  font-size: 20px;
   font-family: 'Lato', sans-serif;
   line-height: 36px;
   margin-top: 10px;
@@ -60,6 +60,7 @@ body {
 }
 .medium-editor-element b, .proto-compose-card b{
   color: #333;
+  font-weight: bold;
 }
 .medium-editor-action-anchor b{
   display:none;

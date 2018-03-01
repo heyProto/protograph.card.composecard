@@ -37,7 +37,7 @@
   },
   "scripts": {
     "build": "npm run build:std && npm run build:edit",
-    "build_windows":"npm run build:std_windows && npm run build:edit_windows",
+    "build_windows": "npm run build:std_windows && npm run build:edit_windows",
     "start": "webpack-dev-server --public --host 0.0.0.0",
     "build:std": "NODE_ENV=production webpack --config webpack.config.card.js --optimize-minimize",
     "build:edit": "NODE_ENV=production webpack --config webpack.config.edit_card.js --optimize-minimize",
