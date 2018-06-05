@@ -18,8 +18,6 @@ ProtoGraph.Card.ComposeCard.prototype.renderEdit = function (onPublishCallback) 
     <EditCard
       dataURL={this.options.data_url}
       schemaURL={this.options.schema_url}
-      optionalConfigURL={this.options.configuration_url}
-      optionalConfigSchemaURL={this.options.configuration_schema_url}
       uiSchemaURL={this.options.ui_schema_url}
       onPublishCallback={this.onPublishCallback}
       siteConfigURL={this.options.site_config_url}
