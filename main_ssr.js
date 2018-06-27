@@ -4,6 +4,9 @@ import Card from './src/js/card.jsx'
 
 global.window = {}
 
+function getInstance(){
+    return new ProtoGraph.Card.toStory();
+}
 
 function getScriptString(mode, dataJSON, selector, site_configs) {
     return `<script>
@@ -32,6 +35,9 @@ function render(initialState) {
     return { content, initialState };
 }
 
+
 module.exports = {
-    render: render
+    render: render,
+    getScriptString: getScriptString,
+    getInstance: getInstance
 }
