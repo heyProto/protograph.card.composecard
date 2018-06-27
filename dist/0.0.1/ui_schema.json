@@ -1,1 +1,10 @@
-{}
+{
+    "data":{
+        "para":{
+            "ui:widget":"textarea",
+            "ui:options":{
+                "rows":"10"
+            }
+        }
+    }
+}

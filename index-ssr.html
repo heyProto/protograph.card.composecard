@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SSR</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="./src/css/styles.css" />
+    <!-- <script src="main.js"></script> -->
+</head>
+<body>
+
+    <div id="card">
+        <!-- SSR Content goes here -->
+    </div>
+
+    <script src="./dist/0.0.1/card.min.js"></script>
+    <script>
+        var x = new ProtoGraph.Card.toComposeCard(),
+            params = {
+                selector: document.querySelector('#card'),
+                isFromSSR: true,
+                initialState: {
+                    "dataJSON": {
+                    }
+                }
+            };
+
+        params['site_configs'] = { "header_logo_url": "https://d2jco8ydyctdne.cloudfront.net/images/indianexpress/57c86975cd78ab70/2432.png", "header_background_color": "#000000", "header_jump_to_link": "http://indianexpress.com", "header_logo_position": "center", "house_colour": "#ee1c25", "reverse_house_colour": "#4caf50", "font_colour": "#ffffff", "reverse_font_colour": "#ffffff", "primary_language": "English", "story_card_style": "Clear: Color", "story_card_flip": true }
+
+        x.init(params);
+        x.renderCol7();
+    </script>
+
+</body>
+</html>

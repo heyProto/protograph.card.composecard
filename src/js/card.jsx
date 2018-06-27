@@ -1,36 +1,28 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { all as axiosAll, get as axiosGet, spread as axiosSpread } from 'axios';
 
-export default class composeCard extends React.Component {
+export default class toCard extends React.Component {
+
   constructor(props) {
     super(props)
     let stateVar = {
       fetchingData: true,
       dataJSON: {},
-      content: undefined,
-      editable: false,
-      text: undefined
+      languageTexts: undefined,
+      siteConfigs: this.props.siteConfigs
     };
 
     if (this.props.dataJSON) {
       stateVar.fetchingData = false;
       stateVar.dataJSON = this.props.dataJSON;
-    }
-
-    if(this.props.text){
-      stateVar.text = this.props.text;
-    }
-
-    if(this.props.editable){
-      stateVar.editable=this.props.editable;
+      stateVar.languageTexts = this.getLanguageTexts(this.props.dataJSON.data.language);
     }
 
     this.state = stateVar;
   }
 
   exportData() {
-    return this.props.selector.getBoundingClientRect();
+    return document.getElementById('protograph_div').getBoundingClientRect();
   }
 
   componentDidMount() {
@@ -47,46 +39,82 @@ export default class composeCard extends React.Component {
         let stateVar = {
           fetchingData: false,
           dataJSON: card.data,
-          text: card.data.data.text,
+          optionalConfigJSON:{},
           siteConfigs: site_configs ? site_configs.data : this.state.siteConfigs
         };
+
+        stateVar.dataJSON.data.language = stateVar.siteConfigs.primary_language.toLowerCase();
+        stateVar.languageTexts = this.getLanguageTexts(stateVar.dataJSON.data.language);
         this.setState(stateVar);
       }));
-    }else{
+    } else {
       this.componentDidUpdate();
     }
   }
 
-  renderCol7() {
-    if (this.state.fetchingData ){
-      return(<div>Loading</div>)
-    } else {
-
-      return (
-        <div className="protograph-col7-mode proto-compose-card" dangerouslySetInnerHTML={{__html: this.state.text}}>
-        </div>
-      )
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.dataJSON) {
+      this.setState({
+        dataJSON: nextProps.dataJSON
+      });
     }
   }
-  renderCol4() {
-    if (this.state.fetchingData ){
-      return(<div>Loading</div>)
-    } else {
-      return (
-        <div className="protograph-col4-mode proto-compose-card" dangerouslySetInnerHTML={{__html: this.state.text}}>
-        </div>
-      )
+
+  getLanguageTexts(languageConfig) {
+    let language = languageConfig ? languageConfig : "hindi",
+      text_obj;
+
+    switch(language.toLowerCase()) {
+      case "hindi":
+        text_obj = {
+          font: "'Sarala', sans-serif"
+        }
+        break;
+      default:
+        text_obj = {
+          font: undefined
+        }
+        break;
     }
+
+    return text_obj;
+  }
+
+  renderFixed(img_url){
+   console.log(img_url) 
+   return(
+      <div className="toimage-card-fixed">
+        <img className="blur-image-bg" src={img_url}/>
+        <img src={img_url} width="100%"/>
+      </div>
+   ) 
+  }
+
+  renderFluid(img_url){
+    // console.log(img_url)
+    return(
+      <div className="toimage-card">
+        <img src={img_url} width="100%"/>
+      </div>
+    )
+    
   }
 
   render() {
-    switch(this.props.mode) {
-      case 'col7' :
-        return this.renderCol7();
-        break;
-      case 'col4':
-        return this.renderCol4();
-        break;
+    /*
+      Code the CARD UI
+      Ensure that you break down the UI into multiple smaller components /functions that can be reused.
+    */
+    console.log(this.state.dataJSON.data)
+    if (this.state.fetchingData) {
+      return (<div>Loading</div>)
+    } else {
+
+      let text = this.state.dataJSON.data.text;
+      return (
+        <div className="proto-container"  dangerouslySetInnerHTML={{__html: text}}>
+        </div>
+      );
     }
   }
 }

@@ -6,21 +6,15 @@
     "data": {
       "id": "/properties/data",
       "properties": {
-        "section": {
-          "id": "/properties/data/properties/section",
-          "type": "string",
-          "title": "Section",
-          "default": ""
-        },
-        "text": {
-          "id": "/properties/data/properties/title",
-          "title": "Title",
-          "type": "string"
+        "para":{
+          "id": "/properties/data/properties/para",
+          "type":"string",
+          "title":"Enter the para"
         }
       },
       "title": "Card Data",
       "type": "object",
-      "required": ["text"]
+      "required":["para"]
     }
   },
   "type": "object"
