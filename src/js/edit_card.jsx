@@ -48,7 +48,7 @@ export default class editCard extends React.Component {
           uiSchemaJSON: uiSchema.data,
           text:card.data.data.text
         };
-        console.log(card.data)
+        // console.log(card.data)
         this.setState(stateVars);
       }));
     }
