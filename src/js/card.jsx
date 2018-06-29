@@ -11,8 +11,8 @@ export default class toCard extends React.Component {
       languageTexts: undefined,
       siteConfigs: this.props.siteConfigs
     };
-
     if (this.props.dataJSON) {
+
       stateVar.fetchingData = false;
       stateVar.dataJSON = this.props.dataJSON;
       stateVar.languageTexts = this.getLanguageTexts(this.props.dataJSON.data.language);
@@ -80,32 +80,12 @@ export default class toCard extends React.Component {
     return text_obj;
   }
 
-  renderFixed(img_url){
-   console.log(img_url) 
-   return(
-      <div className="toimage-card-fixed">
-        <img className="blur-image-bg" src={img_url}/>
-        <img src={img_url} width="100%"/>
-      </div>
-   ) 
-  }
-
-  renderFluid(img_url){
-    // console.log(img_url)
-    return(
-      <div className="toimage-card">
-        <img src={img_url} width="100%"/>
-      </div>
-    )
-    
-  }
-
+ 
   render() {
     /*
       Code the CARD UI
       Ensure that you break down the UI into multiple smaller components /functions that can be reused.
     */
-    console.log(this.state.dataJSON.data)
     if (this.state.fetchingData) {
       return (<div>Loading</div>)
     } else {
