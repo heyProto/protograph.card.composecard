@@ -1,0 +1,13 @@
+@font-face {
+  font-family: AvenirLTStd-Book;
+  src: url("https://cdn.protograph.pykih.com/lib/AvenirLTStd-Book.otf") format("opentype"); }
+
+.proto-container {
+    font-family: AvenirLTStd-Book;
+    font-size: 18px;
+    line-height: 33px;
+    color: #333;
+    margin-top: 0px;
+    margin-bottom: 1.5em;
+}
+
