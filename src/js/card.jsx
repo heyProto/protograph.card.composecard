@@ -80,7 +80,7 @@ export default class toCard extends React.Component {
     return text_obj;
   }
 
- 
+
   render() {
     /*
       Code the CARD UI
@@ -92,7 +92,9 @@ export default class toCard extends React.Component {
 
       let text = this.state.dataJSON.data.text;
       return (
-        <div className="proto-container"  dangerouslySetInnerHTML={{__html: text}}>
+        <div className="proto-container">
+          <div className="compose-card" dangerouslySetInnerHTML={{ __html: text }}>
+          </div>
         </div>
       );
     }
