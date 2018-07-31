@@ -1,10 +1,12 @@
 var SSR = require('./dist/0.0.1/ssr-card.min.js')
 var state = {
-    "dataJSON": {
-        "data": {
-            "text":"<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit essecillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>"
-        },
-        "mandatory_config": {}
+    "dataJSON":
+    {
+        "data":
+        {
+            "text": "<h2>SEWAGE: THE DEEPEST OF ALL PUBLIC UTILITIES</h2>\n<p>The sewer system is the deepest of all public utilities that lie beneath the road. It consists of main sewer lines, laterals and manholes. The main sewer lines in the streets are connected with branch lines to individual sewer points called laterals. This carries sewage from homes and other places to a treatment plant. Manholes are underground structures with heavy round covers that provide access to the sewer lines to inspect and clean them. Sewer jetting machines can only clean sewer lines; sanitation workers still need to get down manholes to clean them manually.</p>\n<p>\u201cA sewer jetting machine\u2019s job is restricted only to pushing the accumulated waste water from one chamber to the next. After that, workers like us collect the semi-solid waste from the manhole manually and clear it,\u201d Deepak, a private sanitation worker from Fauji basti, told <i>The Wire</i>. </p>\n<p>The contractual sanitation workers say suction machines owned by contractors are capable of only handling liquid waste. On most occasions, a human being will need to get into a manhole that varies from four to twelve feet in depth, to clear it of solid waste, including human excreta. </p>\n<p>Sewer cleaning work mostly operates on complaints registered with the municipal corporation but citizens, often in need of quick service, prefer individuals or private sewer cleaners. </p>\n<p>\u201cIt\u2019s exhausting for a person to make a complaint to the municipal corporation\u2019s zone office and wait for days. So, they contact the private sewer cleaners but they don\u2019t possess efficient sewage cleaning machine and get the work done manually. The big jetting machines are owned by the municipal corporation only,\u201d Babu Lal, a private sanitation worker, says.</p>\n<p>This could also mean a few extra rupees for those who decide to work on their own.</p>\n<p>\u201cIf we go to clean the sewers through a contractor, he would pay us only the daily wages, but if we do the sewer cleaning work manually, in our individual capacity, it pays us Rs 1,000. Why would we say no?\u201d said Mukesh Kumar, a private sanitation worker from Fauji basti.</p>\n<p>Speaking to <i>The Wire</i>, Ramesh Meena, executive engineer at the Jaipur Municipal Corporation, said, \u201cThe entire sewer cleaning process in Jaipur is mechanised with the sucker and jetting machines. There may be some instances where silt accumulates but that doesn\u2019t contain excreta. The jetting machines have an elongated pipe attached that can reach any locality.\u201d Sanitation workers, though, underline that in many cases big machines are unable to go inside narrow lanes and elongated pipes also fall short.</p>\n",
+            "section": "SEWAGE: THE DEEPEST OF ALL PUBLIC UTILITIES"
+        }
     }
 }
 let x = SSR.render(state)
