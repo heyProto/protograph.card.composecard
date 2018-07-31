@@ -92,7 +92,7 @@ export default class toCard extends React.Component {
 
       let text = this.state.dataJSON.data.text;
       return (
-        <div className="proto-container">
+        <div className={this.props.renderingSSR ? "" : "proto-container"  }>
           <div className="compose-card" dangerouslySetInnerHTML={{ __html: text }}>
           </div>
         </div>
