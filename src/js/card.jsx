@@ -22,7 +22,7 @@ export default class toCard extends React.Component {
   }
 
   exportData() {
-    return document.getElementById('protograph_div').getBoundingClientRect();
+    return document.getElementById('toCard_card').getBoundingClientRect();
   }
 
   componentDidMount() {
