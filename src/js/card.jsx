@@ -8,14 +8,12 @@ export default class toCard extends React.Component {
     let stateVar = {
       fetchingData: true,
       dataJSON: {},
-      languageTexts: undefined,
       siteConfigs: this.props.siteConfigs
     };
     if (this.props.dataJSON) {
-
       stateVar.fetchingData = false;
       stateVar.dataJSON = this.props.dataJSON;
-      stateVar.languageTexts = this.getLanguageTexts(this.props.dataJSON.data.language);
+      // stateVar.languageTexts = this.getLanguageTexts(this.props.dataJSON.data.language);
     }
 
     this.state = stateVar;
@@ -43,8 +41,8 @@ export default class toCard extends React.Component {
           siteConfigs: site_configs ? site_configs.data : this.state.siteConfigs
         };
 
-        stateVar.dataJSON.data.language = stateVar.siteConfigs.primary_language.toLowerCase();
-        stateVar.languageTexts = this.getLanguageTexts(stateVar.dataJSON.data.language);
+        // stateVar.dataJSON.data.language = stateVar.siteConfigs.primary_language.toLowerCase();
+        // stateVar.languageTexts = this.getLanguageTexts(stateVar.dataJSON.data.language);
         this.setState(stateVar);
       }));
     } else {
