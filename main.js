@@ -21,7 +21,10 @@ ProtoGraph.Card.toComposeCard.prototype.render = function () {
   if (this.options.isFromSSR) {
     hydrate(
       <Card
-        dataJSON={this.options.data_url}
+        selector={this.options.selector}
+        mode={this.mode}
+        dataURL={this.options.data_url}
+        siteConfigs={this.options.site_configs}
       />,
       this.options.selector);
   } else {
