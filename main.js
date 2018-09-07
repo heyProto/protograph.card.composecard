@@ -25,6 +25,7 @@ ProtoGraph.Card.toComposeCard.prototype.render = function () {
         mode={this.mode}
         dataURL={this.options.data_url}
         siteConfigs={this.options.site_configs}
+        renderingSSR={true}
       />,
       this.options.selector);
   } else {
